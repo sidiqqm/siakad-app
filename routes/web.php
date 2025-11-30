@@ -14,10 +14,24 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-Route::redirect('/', 'login');
+Route::get('/', function () {
+    if (auth()->check())
+        return to_route('dashboard');
+    else
+        return to_route('login');
+});
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $user = auth()->user();
+
+    return match (true) {
+        $user->hasRole('Admin') => redirect()->intended(route('admin.dashboard')),
+        $user->hasRole('Student') => redirect()->intended(route('student.dashboard')),
+        $user->hasRole('Teacher') => redirect()->intended(route('teacher.dashboard')),
+        $user->hasRole('Operator') => redirect()->intended(route('operator.dashboard')),
+        default => redirect()->route('login')
+            ->withErrors(['role' => 'Role tidak dikenali.']),
+    };
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

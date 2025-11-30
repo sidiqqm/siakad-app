@@ -52,15 +52,12 @@ class HandleInertiaRequests extends Middleware
 
             'academic_year' => fn() => AcademicYear::query()->where('is_active')->first(),
 
-            $user = auth()->user(),
-
-            'checkFee' => fn() => $user && $user->student && activeAcademicYear()
+            'checkFee' => fn() => $request->user() && $request->user()->student && activeAcademicYear()
                 ? Fee::query()
-                    ->where('student_id', $user->student->id)
-                    ->where('academic_id', activeAcademicYear()->id)
-                    ->where('semester', $user->student->semester)
+                    ->where('student_id', auth()->user()->student->id)
+                    ->where('academic_year_id', activeAcademicYear()->id)
+                    ->where('semester', auth()->user()->student->semester)
                     ->where('status', FeeStatus::SUCCESS->value)
-                    ->first()
                 : null
         ];
     }

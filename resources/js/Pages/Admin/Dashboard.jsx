@@ -1,8 +1,11 @@
+import CardStat from "@/Components/CardStat";
 import HeaderTitle from "@/Components/HeaderTitle";
 import AppLayout from "@/Layouts/AppLayout";
-import { IconLayout2 } from "@tabler/icons-react";
+import { usePage } from "@inertiajs/react";
+import { IconBook, IconBuildingSkyscraper, IconDoor, IconLayout2, IconSchool } from "@tabler/icons-react";
 
 export default function Dashboard(props) {
+    const auth = usePage().props.auth.user;
     return (
         <div className="flex flex-col pb-32 w-full">
             <div className="flex flex-col justify-between items-start mb-8 gap-y-4 lg:flex-row lg:items-center">
@@ -11,6 +14,69 @@ export default function Dashboard(props) {
                     subtitle={props.page_settings.subtitle}
                     icon={IconLayout2}
                 />
+            </div>
+
+            <div className="flex flex-col mb-8">
+                <h2 className="text-xl font-medium leading-relaxed text-foreground">
+                    Hi, {auth.name}
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                    Selamat datang di Sistem Informasi Akademik Universitas
+                </p>
+            </div>
+            <div className="grid gap-4 mb-8 lg:grid-cols-4">
+                <CardStat
+                    data={{
+                        title: "Total Fakultas",
+                        icon: IconBuildingSkyscraper,
+                        background:
+                            "text-white bg-gradient-to-r from-red-400 via-red-500 to-red-500",
+                        iconClassName: "text-white",
+                    }}
+                >
+                    <div className="text-2xl font-bold">
+                        {props.count.faculties}
+                    </div>
+                </CardStat>
+                <CardStat
+                    data={{
+                        title: "Total Program Studi",
+                        icon: IconSchool,
+                        background:
+                            "text-white bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700",
+                        iconClassName: "text-white",
+                    }}
+                >
+                    <div className="text-2xl font-bold">
+                        {props.count.departments}
+                    </div>
+                </CardStat>
+                <CardStat
+                    data={{
+                        title: "Total Kelas",
+                        icon: IconDoor,
+                        background:
+                            "text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-emerald-700",
+                        iconClassName: "text-white",
+                    }}
+                >
+                    <div className="text-2xl font-bold">
+                        {props.count.classrooms}
+                    </div>
+                </CardStat>
+                <CardStat
+                    data={{
+                        title: "Total Mata Kuliah",
+                        icon: IconBook,
+                        background:
+                            "text-white bg-gradient-to-r from-violet-500 via-violet-600 to-violet-700",
+                        iconClassName: "text-white",
+                    }}
+                >
+                    <div className="text-2xl font-bold">
+                        {props.count.courses}
+                    </div>
+                </CardStat>
             </div>
         </div>
     );

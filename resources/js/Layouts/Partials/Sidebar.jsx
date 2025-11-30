@@ -29,13 +29,13 @@ export default function Sidebar({ auth, url }) {
                         className="flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 hover:bg-blue-800"
                     >
                         <Avatar>
-                            <AvatarFallback>X</AvatarFallback>
+                            <AvatarFallback>{auth.name.substring(0,1)}</AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col text-left">
                             <span className="font-bold truncate">
-                                Monkey D Luffy
+                                {auth.name}
                             </span>
-                            <span className="truncate">Admin</span>
+                            <span className="truncate">{auth.role_name}</span>
                         </div>
                     </Link>
                 </li>
@@ -142,7 +142,7 @@ export default function Sidebar({ auth, url }) {
                     <>
                         <NavLink
                             url="#"
-                            active={url.startsWith("/admin/dashboard")}
+                            active={url.startsWith("/teacher/dashboard")}
                             title="Dashboard"
                             icon={IconLayout2}
                         />
@@ -168,7 +168,7 @@ export default function Sidebar({ auth, url }) {
                     <>
                         <NavLink
                             url="#"
-                            active={url.startsWith("/admin/dashboard")}
+                            active={url.startsWith("/operator/dashboard")}
                             title="Dashboard"
                             icon={IconLayout2}
                         />
